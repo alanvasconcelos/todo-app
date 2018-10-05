@@ -1,43 +1,45 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   entry: './src/index.jsx',
   output: {
-    path: __dirname + '/public',
-    filename: './app.js'
+    path: path.resolve('public/assets'),
+    filename: 'app.js',
+    publicPath: 'assets'
   },
   devServer: {
     port: 8000,
-    contentBase: './public'
+    contentBase: './public',
+    historyApiFallback: true
   },
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      modules: __dirname + '/node_modules'
+      modules: path.join(__dirname, '/node_modules')
     }
   },
-  plugins: [
-    new ExtractTextPlugin({ filename: './[name].css' })
-  ],
   module: {
-    rules: [{
-      test: /.js[x]?$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/,
-      query: {
-        presets: ['es2015', 'react'],
-        plugins: ['transform-object-rest-spread']
+    rules: [
+      {
+        test: /.js[x]?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['react'],
+              plugins: ['transform-object-rest-spread']
+            }
+          }
+        ]
+      }, {
+        test: /\.css$/,
+        loader: ['style-loader', 'css-loader']
       }
-    }, {
-      test: /\.css$/,
-      loader: ExtractTextPlugin.extract({
-        fallback: 'style-loader', 
-        use: [ 'css-loader' ]
-      })
-    }, {
-      test: /\.woff|.woff2|.ttf|.eot|.svg*.*$/,
-      loader: 'file-loader'
-    }]
+    ]
+  },
+  performance: {
+    hints: false
   }
 }
