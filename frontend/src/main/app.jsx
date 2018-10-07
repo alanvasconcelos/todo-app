@@ -1,8 +1,11 @@
 import 'modules/bootstrap/dist/css/bootstrap.min.css'
 import React from 'react'
+import Menu from '../template/menu'
+import Routes from './routes'
 
 export default props => (
   <div >
-    <h1>Teste</h1>
+    <Menu />
+    <Routes />
   </div>
 )
