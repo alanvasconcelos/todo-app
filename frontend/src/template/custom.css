@@ -1,0 +1,6 @@
+table button {
+  margin-right: 5px;
+}
+.concluido {
+  text-decoration: line-through;
+}
